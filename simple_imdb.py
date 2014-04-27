@@ -208,7 +208,8 @@ def Query(tablename, qstruct, aggregate = "NONE"):
    #Apply expression on filtered list or actual list
 
    if p_check == 'None':
-      working_list = db[tablename]
+      # Remove the header and add the reminder of the list
+      working_list = db[tablename][1::]
    elif p_check != 'None' and filtered_list != []:
        working_list = filtered_list
    else:
@@ -218,6 +219,7 @@ def Query(tablename, qstruct, aggregate = "NONE"):
    #print "Working list is :", working_list
 
    prev_data_type = table_datatype[(tablename,e_match[0])]
+   #print "data type to work on is ", prev_data_type
 
    index_list = []
    for w in e_match:
@@ -231,12 +233,18 @@ def Query(tablename, qstruct, aggregate = "NONE"):
    # traverse the working list and apply the expression
    result_list = []
    #print "index list is : ", index_list
+   #print "expression list is ", e_match
+
+   #print "working list is: ", working_list
 
    for e in working_list:
        if prev_data_type == "INTEGER":
            temp_x = 0
            for i in index_list:
-               temp_x += e[i]
+               #print 'e of i is ', e[i]
+               v = int(e[i])
+               #print 'v is ', v
+               temp_x += v
        elif prev_data_type == "STRING":
            temp_x = ''
            for i in index_list:
@@ -244,23 +252,23 @@ def Query(tablename, qstruct, aggregate = "NONE"):
 
        result_list.append(temp_x)
 
-   #print "Resulting list is : ", result_list
+   print "Resulting list is : ", result_list
 
    # Apply aggregation if needed.
    # Validate aggregate keyword
    if aggregate == "SUM":
-       #print "Aggregation needs to do SUM"
-       if type(result_list[0]) is int:
+       print "Aggregation needs to do SUM"
+       if type(result_list[0]) is int or type(result_list[0]) is long:
            aggr_result = sum(result_list)
            #print "SUM is: ", aggr_result
            #print "Resulting list is: ", result_list
    elif aggregate == "COUNT":
-       #print "Aggregation needs to do COUNT"
+       print "Aggregation needs to do COUNT"
        aggr_result = len(result_list)
        #print "COUNT is: ", aggr_result
        #print "Resulting list is: ", result_list
    elif aggregate == "NONE":
-       #print "No need to aggregate"
+       print "No need to aggregate"
        print "Resulting list is: ", result_list
        aggr_result = 0
    else:
