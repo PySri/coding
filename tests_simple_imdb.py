@@ -47,7 +47,10 @@ def main():
     #Query('empl',['name+gender', 'age<29'])
     #Query('empl',['name+age','name=Srini'])
 
-   
+
+    # Happy path testing for Scale table queries
+  
+    # Test > predicate 
     print "Calling query Scale" 
     ag = 'COUNT'
     result,ret_list,aggr = Query('Scale',['C1', 'C2>1000000'],ag)
@@ -57,6 +60,66 @@ def main():
         print "Aggregate ", ag, ' ', aggr
     else:
         print "Query returned Error"
+
+    # Test "=" predicate
+    print "Calling query Scale" 
+    ag = 'COUNT'
+    result,ret_list,aggr = Query('Scale',['C1', 'C3=393317910946089938'],ag)
+    if result:
+        print "Query is successful : "
+        print "Resulting table is : ", ret_list
+        print "Aggregate ", ag, ' ', aggr
+    else:
+        print "Query returned Error"
+
+    # Test "<" predicate
+    print "Calling query Scale" 
+    ag = 'COUNT'
+    result,ret_list,aggr = Query('Scale',['C50', 'C5<5987865435138336340'],ag)
+    if result:
+        print "Query is successful : "
+        print "Resulting table is : ", ret_list
+        print "Aggregate ", ag, ' ', aggr
+    else:
+        print "Query returned Error"
+
+    # Test empty predicate
+    print "Calling query Scale" 
+    ag = 'COUNT'
+    result,ret_list,aggr = Query('Scale',['C25', ''],ag)
+    if result:
+        print "Query is successful : "
+        print "Resulting table is : ", ret_list
+        print "Aggregate ", ag, ' ', aggr
+    else:
+        print "Query returned Error"
+
+    # Test empty predicate with SUM aggr
+    print "Calling query Scale" 
+    ag = 'SUM'
+    result,ret_list,aggr = Query('Scale',['C40', ''],ag)
+    if result:
+        print "Query is successful : "
+        print "Resulting table is : ", ret_list
+        print "Aggregate ", ag, ' ', aggr
+    else:
+        print "Query returned Error"
+
+    # Test expression with empty predicate
+    #print "Calling query Scale" 
+    ag = 'SUM'
+    result,ret_list,aggr = Query('Scale',['C25+C34', ''],ag)
+    if result:
+        print "Query is successful : "
+        print "Resulting table is : ", ret_list
+        print "Aggregate ", ag, ' ', aggr
+    else:
+        print "Query returned Error"
+
+    tablenames = ['Scale']
+    agl = ['SUM','COUNT','NONE']
+    predl = ['C75>4876000000000000000', 'C60<7230000000000000000', 'C3=8527285376860882071', '']
+    exprl =['C39', 'C45+43', 'C1+C100']
 
 if __name__ == '__main__':
     main()
