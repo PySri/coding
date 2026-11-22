@@ -1,0 +1,11 @@
+# never commit real cookie data or reports
+Cookies
+Cookies-*
+cookies.sqlite*
+*.binarycookies
+cookies.txt
+*.bak-*
+*.html
+*.csv
+*.json
+__pycache__/
