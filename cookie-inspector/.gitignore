@@ -9,3 +9,4 @@ cookies.txt
 *.csv
 *.json
 __pycache__/
+cleanup.log
